@@ -1,0 +1,26 @@
+sky:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: localhost
+    port: 3306
+    database: sky_take_out
+    username: root
+    password: 334000
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    database: 0
+  wechat:
+    appid: wxa32837a16a0eb457
+    secret: 8ae895999113a59fb345ebb28741a7e3
+
+    #微信支付相关开始,本项目暂未涉及
+    mchid: 1561414331
+    mchSerialNo: 4B3B3DC3541A4D50B1B755BAF8DE9CC7CF407606
+    privateKeyFilePath: .pem # 平台证书（商户才有）
+    apiV3Key: CZBK51236435wxpay435434323FFDuv3
+    weChatPayCertFilePath: .pem # 平台证书（商户才有）
+    notifyUrl: https://6619cf50.r6.cpolar.top/notify/paySuccess #内网穿透成功支付地址
+    refundNotifyUrl: https://6619cf50.r6.cpolar.top/notify/refundSuccess #内网穿透退款成功回调地址
+    #微信支付相关结束

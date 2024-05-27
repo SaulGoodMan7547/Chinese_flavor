@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.SetMealMapper">
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM setmeal WHERE category_id = #{categoryId}
+    </select>
+
+    <select id="pageQuery" resultType="com.sky.vo.SetmealVO">
+            -- select setmeal.*,category.name as categoryName from setmeal left join category on setmeal.category_id = category.id
+            SELECT setmeal.*,category.name as categoryName FROM setmeal LEFT JOIN category ON setmeal.category_id = category.id
+            <where>
+                <if test="name != null and name != ''">AND setmeal.name LIKE CONCAT("%",#{name},"%")</if>
+                <if test="categoryId != null">AND setmeal.category_id = #{categoryId}</if>
+                <if test="status != null">AND setmeal.status = #{status}</if>
+            </where>
+
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO setmeal(id,category_id,name,price,status,description,image,create_time,create_user,update_time,update_user)
+        VALUES (#{id},#{categoryId},#{name},#{price},#{status},#{description},#{image},#{createTime},#{createUser},#{updateTime},#{updateUser})
+    </insert>
+
+    <delete id="deleteBatch">
+        DELETE FROM setmeal WHERE id IN
+        <foreach collection="ids" separator="," item="id" open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="countSelling" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM setmeal WHERE id IN
+        <foreach collection="ids" separator="," item="id" open="(" close=")">
+            #{id}
+        </foreach>
+        AND status = 1
+    </select>
+
+    <update id="update">
+        UPDATE setmeal
+        <set>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="image != null">image = #{image}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="overViewSetmeal" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM `setmeal`
+        <where>
+            <if test="status != null">AND status = #{status}</if>
+        </where>
+    </select>
+
+</mapper>
